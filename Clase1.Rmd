@@ -1,0 +1,81 @@
+---
+title: "Clase1"
+author: "Ramiro Maravilla"
+date: "4/6/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(ggplot2)
+library(ggridges)
+```
+
+Con RStudio podemos hacer muchas cosas relevantes para las ciencias sociales:
+
+1. Realizar visualización útiles para la toma de decisiones
+
+```{r diamonds}
+data(diamonds)
+head(diamonds)
+
+#Hacemos la gráfica
+ggplot(diamonds, aes(x = price, y = cut, fill = cut)) +
+  geom_density_ridges() +
+  theme_ridges() + 
+  theme(legend.position = "none") +
+  ggtitle("Relación precio-calidad de diamantes")
+```
+
+2. Limpiar bases de datos, procesar información y crear modelos estadísticos
+
+```{r}
+base <- read.csv("C:/Users/rmara/OneDrive/Otras cosas/Prope_COLMEX/Clase1/qog_std_cs_jan19.csv",
+               header = TRUE)
+
+# Podemos renombrar
+names(base)[which(names(base) == "icrg_qog")] <- "gov_quality"
+names(base)[which(names(base) == "bti_sc")] <- "social_capital"
+
+# Examinamos info
+summary(base$gov_quality) # 55 NA's
+
+# Quitamos NA's
+base <- base[ !is.na(df$bti_sc), ]
+
+# Creamos un modelo
+m1 <- lm(gov_quality ~ social_capital, data = base)
+summary(m1)
+```
+
+3. Crear tus propias funciones
+
+```{r}
+#Definimos una función para saber si un número es positivo o negativo
+prueba <-function(x){
+  if (x>0) print("Positivo")
+  else if (x==0) print("Cero")
+  else print("Negativo")
+}
+
+prueba(x=8)
+prueba(x=0)
+prueba(x=-38)
+
+#Definimos otra función para resolver ecuaiones de segundo grado
+a <- -8
+b <- 6
+c <- 4
+
+equation <- function(a,b,c){
+  D <- b^2 - 4*a*c
+  X1 <- (-b + sqrt(D))/(2*a)
+  X2 <- (-b - sqrt(D))/(2*a)
+  
+  list(first_solution = X1,
+       second_solution = X2)
+}
+
+equation(a=-8, b=6, c=4)
+
+```
+
